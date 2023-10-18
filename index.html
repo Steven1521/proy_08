@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+    <script>
+
+        function Automoviles(marca, cilindraje, modelo, precio, linea) {
+            this.cilindraje = cilindraje;
+            this.marca = marca;
+            this.modelo = modelo;
+            this.precio = precio;
+            this.linea = linea;
+        }
+        let automovil1 = new Automoviles('mazda', '2.0', '2023', '89.000.000', '3');
+
+        console.log({ automovil1 });
+
+        const automovil1Prototype = {
+            nivelGasolina() {
+                console.log(`El nivel de gasolinaes`)
+                console.log((Math.floor(Math.random() * 101)) +(`%`));
+            },
+
+            tecnoMecanica() {
+                console.log('el carro no debe ir a tecno mecanica')
+
+            }
+        }
+
+        Object.assign(Automoviles.prototype, automovil1Prototype);
+
+        automovil1.nivelGasolina();
+        automovil1.tecnoMecanica();
+
+
+        function Sedan(marca, cilindraje, modelo, precio, linea,
+            numeroPasajeros, tipoCaja) {
+            this.super = Automoviles;
+            this.super(marca, cilindraje, modelo, precio, linea);
+            this.numeroPasajeros = numeroPasajeros;
+            this.tipoCaja = tipoCaja;
+        }
+
+        Sedan.prototype = new Automoviles();
+        Sedan.prototype.costructor = Automoviles;
+
+        Sedan.prototype.numeroCinturonesSeguridad = function () {
+            return `El carro ${this.marca} tiene ${this.numeroPasajeros} cinturones de seguridad`;
+        }
+
+        let sedan1 = new Sedan('sedan', '1.8', '2014', 12000000, 'A3', 4, 'manual')
+
+        console.log({ sedan1 })
+
+        console.log(sedan1.numeroCinturonesSeguridad());
+
+
+
+
+
+
+
+        function Instructor(nombre, linea, jornada) {
+            this.nombre = nombre;
+            this.linea = linea;
+            this.jornada = jornada;
+        }
+
+        let instructor1 = new Instructor('steven', 'sofware', 'tarde');
+        console.log({ instructor1 })
+
+        Instructor.prototype.programaFormacion = function() {
+            switch (this.linea) {
+                case 'sofware':
+                    return ('Analisis y desarrollo de sofware');
+                    break;
+                case 'harware':
+                    return ('Administracion de redes');
+                    break;
+                default: 'otro tipo de programa'
+                    return 'no tiene registro para una linea tecnologica'
+
+                    break;
+            }
+        }
+
+        console.log(instructor1.programaFormacion());
+
+        function InstructorPlanta(nombre, linea, jornada, fechaVinculacion) {
+            this.super = Instructor;
+            this.super(nombre, linea, jornada);
+            this.fechaVinculacion = fechaVinculacion;
+        }
+
+        InstructorPlanta.prototype = new Instructor();
+        InstructorPlanta.prototype.costructor = Instructor;
+
+
+
+        InstructorPlanta.prototype.tiempoVinculacion = function () {
+            return `tiempo de vinculacion es ${this.fechaVinculacion}`;
+        }
+
+
+
+
+        let InstructorPlanta1 = new InstructorPlanta('Daniel', 'harware', 'mañana', '2 Años');
+
+        console.log({ InstructorPlanta1 });
+        console.log(InstructorPlanta1.tiempoVinculacion());
+
+
+        function Restaurante(plato, cantidad, precio) {
+            this.plato = plato;
+            this.cantidad = cantidad;
+            this.precio = precio;
+        }
+
+        let Restaurante1 = new Restaurante('pizza', 2, 30.000);
+        console.log({ Restaurante1 })
+
+        Restaurante.prototype.pedidoRestaurante = function () {
+            return `El pedido del cliente es ${this.cantidad} de ${this.plato}`
+
+        }
+
+        console.log(Restaurante1.pedidoRestaurante());
+
+        function sumarValor(valor, cantidad) {
+            if (typeof valor !== 'number' || typeof cantidad !== 'number') {
+                return "Ambos argumentos deben ser números.";
+            }
+
+            return valor * cantidad;
+        }
+        const resultado = sumarValor(30000, 2);
+        console.log(resultado);
+
+
+        function calcularTotal(productos) {
+            return productos.reduce((total, producto) => total + producto.precio, 0);
+        }
+
+        function calcularDescuento(productos, valorMinimo) {
+            const total = productos.reduce((total, producto) => total + producto.precio, 0);
+            return (productos.length > 2 && total >= valorMinimo) ? total * 0.1 : 0;
+        }
+
+    
+        const productos = [
+            { nombre: "plato1", precio: 30000 },
+            { nombre: "plato2", precio: 30000 },
+          
+        ];
+
+        const valorMinimo = 50000;
+
+        const descuento = calcularDescuento(productos, valorMinimo);
+
+        console.log("Descuento aplicado:", descuento);
+        console.log("Total con descuento:", calcularTotal(productos) - descuento); 
+
+        function RestauranteDomicilio(plato, cantidad, precio, tiempoEntrega, valorDomicilio){
+            this.super = Restaurante;
+            this.super(plato, cantidad, precio);
+            this.tiempoEntrega = tiempoEntrega;
+            this.valorDomicilio = valorDomicilio;
+        }
+
+        RestauranteDomicilio.prototype = new Restaurante();
+        RestauranteDomicilio.prototype.constructor = Restaurante;
+
+        RestauranteDomicilio.prototype.informacionRestaurante = function (){
+            return `El restaurante hamburfood es uno de los mejores restaurntes de hamburguesas de la ciudad entregas rapidas`
+        }
+
+        RestauranteDomicilio.prototype.valorPedido = function (){
+            return `El valor de el pedido es ${this.valorDomicilio}`
+        }
+
+        let RestauranteDomicilio1 = new RestauranteDomicilio('Hamburguesa', 3, 18000, '30 min', 2500);
+
+        console.log({RestauranteDomicilio1});
+        console.log(RestauranteDomicilio1.informacionRestaurante());
+        console.log(RestauranteDomicilio1.valorPedido());
+
+
+
+
+
+    </script>
+</body>
+
+</html>
